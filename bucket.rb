@@ -40,7 +40,7 @@ class Tools::Api
   class << self
     def perform
       BUCKET_LIST.each do |bucket|
-        @page_count = 1
+        @page_count = 0
         @skip = SEARCH_SKIP.dup
         @search_count = SEARCH_COUNT.dup
         @break_switch = false
