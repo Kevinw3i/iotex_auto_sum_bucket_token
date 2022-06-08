@@ -41,7 +41,6 @@ class Tools::Api
   class << self
     def perform
       BUCKET_LIST.each do |bucket|
-        @page_count = 0
         @page = SEARCH_SKIP.dup
         @search_count = SEARCH_COUNT.dup
         @break_switch = false
@@ -49,7 +48,7 @@ class Tools::Api
         loop do
           get_stake_list(bucket)
           break if @break_switch
-          @page_count += 1
+          @page = @page + 1
           puts "Bucket[#{bucket}](ongoing): #{variable_get(bucket)}"
           sleep(1)
         end
@@ -62,7 +61,7 @@ class Tools::Api
 
     def get_stake_list(bucket)
       begin
-        json_body = %Q[{"params":{"page":#{@page_count},"limit":#{@search_count},"bucket_id":#{bucket}},"meta":{}}]
+        json_body = %Q[{"params":{"page":#{@page},"limit":#{@search_count},"bucket_id":#{bucket}},"meta":{}}]
 
         uri = URI.parse("#{GET_BUCKET_BY_QUERY}")
         request = Net::HTTP::Post.new(uri)
